@@ -1,29 +1,14 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:mobileii/Components/Action_button/action_button_view_model.dart';
 
-enum ActionButtonSize{
-  small,
-  medium,
-  large
-}
+class ActionButton extends StatelessWidget {
 
-enum ActionButtonStyle {
-  primary,
-  secundary,
-  tertiary
-}
+  final ActionButtonViewModel viewModel;
 
-class ActionButtonViewModel {
-  final ActionButtonStyle style;
-  final ActionButtonSize size;
-  final String text;
-  final IconData? icon;
-  final Function()  onPressed;
+  const  ActionButton._({super.key, required this.viewModel});
 
-  ActionButtonViewModel ({
-    required this.size,
-    required this.style,
-    required this.text,
-    required this.onPressed,
-    this.icon});
-
+  @override
+  Widget build(BuildContext context) {
+    return View();
+  }
 }
