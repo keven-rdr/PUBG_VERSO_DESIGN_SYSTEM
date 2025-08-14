@@ -22,7 +22,7 @@ class ActionButton extends StatelessWidget {
     this.size = 16
   });
 
-  static Widget instantiate({required ActionButtonViewModel viewModel, backgroundColor = primaryBaseColor}) {
+  static ActionButton instantiate({required ActionButtonViewModel viewModel, backgroundColor = primaryBaseColor}) {
     return ActionButton._(viewModel: viewModel);
   }
 

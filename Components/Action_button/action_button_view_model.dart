@@ -17,13 +17,12 @@ class ActionButtonViewModel {
   final ActionButtonSize size;
   final String text;
   final IconData? icon;
-  final Function()?  onPressed;
+
 
   ActionButtonViewModel ({
     required this.size,
     required this.style,
     required this.text,
-    required this.onPressed,
     this.icon});
 
 }
