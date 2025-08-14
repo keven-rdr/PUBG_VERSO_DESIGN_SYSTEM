@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobileii/Components/Action_button/action_button.dart';
+import 'package:mobileii/Components/Action_button/action_button_view_model.dart';
 
 void main() {
   runApp(const MyApp());
@@ -53,7 +55,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> implements ActionButtonDelegate{
   int _counter = 0;
 
   void _incrementCounter() {
@@ -75,6 +77,12 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    var button = ActionButton.instantiate(viewModel: ActionButtonViewModel(
+        size: ActionButtonSize.medium,
+        style: ActionButtonStyle.primary, text: "ok", onPressed: (){}));
+
+    button.delegate = this;
+
     return Scaffold(
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
@@ -112,11 +120,14 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: ActionButton.instantiate(viewModel: ActionButtonViewModel(
+          size: ActionButtonSize.large,
+          style: ActionButtonStyle.secundary, text: "ok", onPressed: (){}))// This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  @override
+  void onClick(ActionButtonViewModel viewModel) {
+    print("Teste");
   }
 }

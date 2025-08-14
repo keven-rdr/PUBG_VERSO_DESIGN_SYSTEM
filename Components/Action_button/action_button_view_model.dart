@@ -17,7 +17,7 @@ class ActionButtonViewModel {
   final ActionButtonSize size;
   final String text;
   final IconData? icon;
-  final Function()  onPressed;
+  final Function()?  onPressed;
 
   ActionButtonViewModel ({
     required this.size,
