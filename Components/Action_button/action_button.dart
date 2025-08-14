@@ -31,7 +31,7 @@ class ActionButton extends StatelessWidget {
       case ActionButtonStyle.primary:
         backgroundColor = primaryBaseColor;
         break;
-      case ActionButtonStyle.secundary:
+      case ActionButtonStyle.secondary:
         backgroundColor = secondaryBaseColor;
         break;
       case ActionButtonStyle.tertiary:

@@ -8,7 +8,7 @@ enum ActionButtonSize{
 
 enum ActionButtonStyle {
   primary,
-  secundary,
+  secondary,
   tertiary
 }
 
