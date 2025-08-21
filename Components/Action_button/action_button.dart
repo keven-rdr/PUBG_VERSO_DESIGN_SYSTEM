@@ -1,35 +1,26 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../Shared/colors.dart';
 import '../../Shared/styles.dart';
 import 'action_button_view_model.dart';
 
-abstract class ActionButtonDelegate{
-  //alterar a assinatura do delegate para identificar qual ação foi disparada
+abstract class ActionButtonDelegate {
   void onClick(ActionButton sender, ActionButtonViewModel viewModel);
 }
 
 class ActionButton extends StatelessWidget {
-
-  //view model vai determinar o visual do botão
   final ActionButtonViewModel viewModel;
-  Color backgroundColor;
-  int size;
-  ActionButtonDelegate? delegate;
+  final ActionButtonDelegate? delegate;
 
-  ActionButton._({
+  const ActionButton({
     super.key,
     required this.viewModel,
-    this.backgroundColor = primaryBaseColor,
-    this.size = 16
+    this.delegate,
   });
 
-  static ActionButton instantiate({required ActionButtonViewModel viewModel, backgroundColor = primaryBaseColor}) {
-    return ActionButton._(viewModel: viewModel);
-  }
-
-  void setStyle(ActionButtonStyle style) {
-    switch(viewModel.style) {
+  @override
+  Widget build(BuildContext context) {
+    final Color backgroundColor;
+    switch (viewModel.style) {
       case ActionButtonStyle.primary:
         backgroundColor = primaryBaseColor;
         break;
@@ -40,38 +31,72 @@ class ActionButton extends StatelessWidget {
         backgroundColor = tertiaryBaseColor;
         break;
     }
-  }
 
-  void setSize(ActionButtonSize size) {
-    switch(viewModel.size) {
+    final double verticalPadding;
+    final double horizontalPadding;
+    final double fontSize;
+    final double iconSize;
+
+    switch (viewModel.size) {
       case ActionButtonSize.small:
-        this.size = 16;
+        verticalPadding = 8;
+        horizontalPadding = 16;
+        fontSize = 14;
+        iconSize = 16;
         break;
       case ActionButtonSize.medium:
-        this.size = 24;
+        verticalPadding = 12;
+        horizontalPadding = 24;
+        fontSize = 16;
+        iconSize = 20;
         break;
       case ActionButtonSize.large:
-        this.size = 32;
+        verticalPadding = 16;
+        horizontalPadding = 32;
+        fontSize = 18;
+        iconSize = 24;
         break;
     }
-  }
 
-  Widget createElevatedButton() {
-    double verticalPadding = 12;
-    double horizontalPadding = 32;
-    //pasei o this, falando que eu mesmo to me chamando
-    return ElevatedButton(onPressed: () { delegate?.onClick(this, viewModel); },
-        style: ElevatedButton.styleFrom(
-            backgroundColor: backgroundColor,
-            textStyle: regular,
-            padding: EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding)),
-        child: Text(viewModel.text));
-  }
+    List<Widget> children = [];
+    final iconWidget = viewModel.icon != null
+        ? Icon(viewModel.icon, color: Colors.black, size: iconSize)
+        : const SizedBox.shrink();
+    final textWidget = Text(
+      viewModel.text,
+      style: regular.copyWith(fontSize: fontSize, color: Colors.white),
+    );
 
-  @override
-  Widget build(BuildContext context) {
-    setStyle(viewModel.style);
-    setSize(viewModel.size);
-    return createElevatedButton();
+    if (viewModel.icon != null) {
+      if (viewModel.iconPosition == IconPosition.left) {
+        children.add(iconWidget);
+        children.add(const SizedBox(width: 8));
+        children.add(textWidget);
+      } else {
+        children.add(textWidget);
+        children.add(const SizedBox(width: 8));
+        children.add(iconWidget);
+      }
+    } else {
+      children.add(textWidget);
+    }
+
+    return ElevatedButton(
+      onPressed: () {
+        delegate?.onClick(this, viewModel);
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: backgroundColor,
+        padding: EdgeInsets.symmetric(
+          vertical: verticalPadding,
+          horizontal: horizontalPadding,
+        ),
+        shape: const StadiumBorder(),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: children,
+      ),
+    );
   }
 }

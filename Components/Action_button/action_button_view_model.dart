@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-enum ActionButtonSize{
+enum IconPosition {
+  left,
+  right
+}
+
+enum ActionButtonSize {
   small,
   medium,
   large
@@ -17,12 +22,13 @@ class ActionButtonViewModel {
   final ActionButtonSize size;
   final String text;
   final IconData? icon;
+  final IconPosition iconPosition;
 
-
-  ActionButtonViewModel ({
+  ActionButtonViewModel({
     required this.size,
     required this.style,
     required this.text,
-    this.icon});
-
+    this.icon,
+    this.iconPosition = IconPosition.left,
+  });
 }
