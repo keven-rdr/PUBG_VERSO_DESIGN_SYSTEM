@@ -69,6 +69,7 @@ class _MyHomePageState extends State<MyHomePage> implements ActionButtonDelegate
     });
   }
 
+  //vai construir o botão
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -78,8 +79,9 @@ class _MyHomePageState extends State<MyHomePage> implements ActionButtonDelegate
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     var viewModel = ActionButtonViewModel(
-        size: ActionButtonSize.medium,
+        size: ActionButtonSize.large,
         style: ActionButtonStyle.primary, text: "Ok");
+    //instaciou o viewmodel
     var button = ActionButton.instantiate(viewModel: viewModel); // This trailing comma makes auto-formatting nicer for build methods.
 
     button.delegate = this;
@@ -128,6 +130,7 @@ class _MyHomePageState extends State<MyHomePage> implements ActionButtonDelegate
         floatingActionButton: button);
   }
 
+  //foi obrigado a programar o medor de click como parametro
   @override
   void onClick(ActionButtonViewModel viewModel) {
     print("clicado");

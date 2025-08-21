@@ -10,6 +10,7 @@ abstract class ActionButtonDelegate{
 
 class ActionButton extends StatelessWidget {
 
+  //view model vai determinar o visual do botão
   final ActionButtonViewModel viewModel;
   Color backgroundColor;
   int size;
