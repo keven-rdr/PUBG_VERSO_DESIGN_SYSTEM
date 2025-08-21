@@ -58,6 +58,8 @@ class MyHomePage extends StatefulWidget{
 class _MyHomePageState extends State<MyHomePage> implements ActionButtonDelegate  {
   int _counter = 0;
 
+  var  button;
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -82,13 +84,10 @@ class _MyHomePageState extends State<MyHomePage> implements ActionButtonDelegate
         size: ActionButtonSize.large,
         style: ActionButtonStyle.primary, text: "Ok");
     //instaciou o viewmodel
-    var button = ActionButton.instantiate(viewModel: viewModel); // This trailing comma makes auto-formatting nicer for build methods.
+    button = ActionButton.instantiate(viewModel: viewModel); // This trailing comma makes auto-formatting nicer for build methods.
 
     button.delegate = this;
 
-    void trataEvento() {
-      onClick(viewModel);
-    }
 
     return Scaffold(
         appBar: AppBar(
@@ -132,8 +131,12 @@ class _MyHomePageState extends State<MyHomePage> implements ActionButtonDelegate
 
   //foi obrigado a programar o medor de click como parametro
   @override
-  void onClick(ActionButtonViewModel viewModel) {
-    print("clicado");
+  void onClick(ActionButton sender, ActionButtonViewModel viewModel) {
+
+    if(sender == button){
+      print("clicado");
+    }
+
   }
 }
 

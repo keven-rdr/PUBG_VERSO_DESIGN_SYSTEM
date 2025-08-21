@@ -5,7 +5,8 @@ import '../../Shared/styles.dart';
 import 'action_button_view_model.dart';
 
 abstract class ActionButtonDelegate{
-  void onClick(ActionButtonViewModel viewModel);
+  //alterar a assinatura do delegate para identificar qual ação foi disparada
+  void onClick(ActionButton sender, ActionButtonViewModel viewModel);
 }
 
 class ActionButton extends StatelessWidget {
@@ -58,7 +59,8 @@ class ActionButton extends StatelessWidget {
   Widget createElevatedButton() {
     double verticalPadding = 12;
     double horizontalPadding = 32;
-    return ElevatedButton(onPressed: () { delegate?.onClick(viewModel); },
+    //pasei o this, falando que eu mesmo to me chamando
+    return ElevatedButton(onPressed: () { delegate?.onClick(this, viewModel); },
         style: ElevatedButton.styleFrom(
             backgroundColor: backgroundColor,
             textStyle: regular,
