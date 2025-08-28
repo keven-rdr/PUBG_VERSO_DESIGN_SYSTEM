@@ -6,23 +6,24 @@ enum ActionButtonSize{
   large
 }
 
-enum ActionButtonStyle {
+enum ActionButtonStyle{
   primary,
   secondary,
   tertiary
 }
 
 class ActionButtonViewModel {
-  final ActionButtonStyle style;
   final ActionButtonSize size;
+  final ActionButtonStyle style;
   final String text;
   final IconData? icon;
+  final Function() onPressed;
 
-
-  ActionButtonViewModel ({
+  ActionButtonViewModel({
     required this.size,
     required this.style,
     required this.text,
-    this.icon});
-
+    required this.onPressed,
+    this.icon
+  });
 }
