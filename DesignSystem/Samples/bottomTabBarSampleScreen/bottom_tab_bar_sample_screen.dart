@@ -9,8 +9,16 @@ class BottomTabBarPage extends StatefulWidget {
   State<BottomTabBarPage> createState() => _BottomTabBarPageState();
 }
 
-class _BottomTabBarPageState extends State<BottomTabBarPage> {
+class _BottomTabBarPageState extends State<BottomTabBarPage> implements BottomTabBarDelegate{
   int actualIndex = 0;
+
+  //metodo obrigatorio
+  @override
+  void onTabTapped(int index){
+    setState(() {
+      actualIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,13 +54,8 @@ class _BottomTabBarPageState extends State<BottomTabBarPage> {
               label: "Profile",
             )
           ],
-          onIndexChanged: (index) {
-            setState(() {
-              actualIndex = index;
-            });
-          },
         ),
-        currentIndex: actualIndex,
+        currentIndex: actualIndex, delegate: this,
       ),
     );
   }
