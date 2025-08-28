@@ -4,6 +4,6 @@ class BottomTabBarViewModel {
   final List<BottomNavigationBarItem> bottomTabs;
 
   BottomTabBarViewModel({
-    required this.bottomTabs,
+    required this.bottomTabs
   });
 }

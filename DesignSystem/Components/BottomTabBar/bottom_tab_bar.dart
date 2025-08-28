@@ -4,7 +4,7 @@ import '../../shared/colors.dart';
 import 'bottom_tab_bar_view_model.dart';
 
 abstract class BottomTabBarDelegate{
-  void onTabTapped(int index);
+  void onIndexChange(int currentIndex);
 }
 
 class BottomTabBar extends StatelessWidget {
@@ -35,7 +35,7 @@ class BottomTabBar extends StatelessWidget {
       unselectedItemColor: lightPrimaryBaseColorLight,
       showUnselectedLabels: true,
       currentIndex: currentIndex,
-      onTap: (index) => delegate?.onTabTapped(index),
+      onTap: delegate?.onIndexChange,
     );
   }
 }

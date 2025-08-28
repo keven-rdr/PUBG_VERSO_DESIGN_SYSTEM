@@ -12,14 +12,6 @@ class BottomTabBarPage extends StatefulWidget {
 class _BottomTabBarPageState extends State<BottomTabBarPage> implements BottomTabBarDelegate{
   int actualIndex = 0;
 
-  //metodo obrigatorio
-  @override
-  void onTabTapped(int index){
-    setState(() {
-      actualIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
@@ -55,8 +47,17 @@ class _BottomTabBarPageState extends State<BottomTabBarPage> implements BottomTa
             )
           ],
         ),
-        currentIndex: actualIndex, delegate: this,
+        currentIndex: actualIndex, //ser usado para selecionar o item
+        delegate: this
       ),
     );
+  }
+
+  //metodo obrigatorio
+  @override
+  void onIndexChange(int currentIndex){
+    setState(() {
+      actualIndex = currentIndex;
+    });
   }
 }
