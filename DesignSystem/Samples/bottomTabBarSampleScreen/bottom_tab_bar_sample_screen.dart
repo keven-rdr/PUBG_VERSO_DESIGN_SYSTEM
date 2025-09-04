@@ -68,7 +68,7 @@ class _BottomTabBarPageState extends State<BottomTabBarPage>
               bottomTabs: [
                 const BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: ""),
                 const BottomNavigationBarItem(icon: Icon(LucideIcons.messageCircle), label: ""),
-                const BottomNavigationBarItem(icon: Icon(LucideIcons.tag), label: ""),
+                const BottomNavigationBarItem(icon: Icon(LucideIcons.bell), label: ""),
                 const BottomNavigationBarItem(icon: Icon(LucideIcons.user), label: ""),
               ],
             ),

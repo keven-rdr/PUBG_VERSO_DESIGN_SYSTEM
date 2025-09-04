@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobileii/DesignSystem/Samples/cardSampleScreen/card_sample_screen.dart';
 import '../DesignSystem/Samples/actionButtonSampleScreen/action_button_sample_screen.dart';
 import '../DesignSystem/Samples/bottomTabBarSampleScreen/bottom_tab_bar_sample_screen.dart';
 import '../DesignSystem/Samples/inputFieldSampleScreen/input_field_sample_screen.dart';
@@ -46,6 +47,7 @@ class ButtonScreen extends StatelessWidget {
               _buildButton(context, 'Input Text Field', InputFieldPage()),
               _buildButton(context, 'Linked Label', LinkedLabelPage()),
               _buildButton(context, 'Tab Bar', TabPage()),
+              _buildButton(context, 'Card', CardPage()),
             ],
           ),
         ),
