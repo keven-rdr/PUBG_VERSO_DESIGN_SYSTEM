@@ -64,5 +64,37 @@ const Color regularMaterialColorDark = Color.fromARGB(175, 24, 24, 24);
 const Color thinMaterialColorDark = Color.fromARGB(162, 17, 17, 17);
 const Color ultrathinMaterialColorDark = Color.fromARGB(112, 42, 42, 42);
 
-//Shadow Colors
-//todo: add shadow colors
+
+const Color brandBlue = Color(0xFF5451D6);
+const Color brandLavender = Color(0xFFF0F0FA);
+const Color neutralBlack = Color(0xFF1A1A1A);
+const Color neutralGray700 = Color(0xFF4B4B4B);
+const Color neutralGray200 = Color(0xFFEDEEF1);
+const Color neutralWhite = Color(0xFFFFFFFF);
+
+const Color primaryButtonBackground = brandBlue;
+const Color primaryButtonForeground = neutralWhite;
+
+const Color secondaryButtonBackground = brandLavender;
+const Color secondaryButtonForeground = brandBlue;
+
+// Para botões com borda (Outline) ou fantasma (Ghost)
+const Color outlineButtonForeground = brandBlue;
+const Color ghostButtonForeground = neutralGray700;
+// const Color ghostButtonForeground = brandBlue;
+
+// -- Cores de Texto --
+const Color primaryTextColorLight = neutralBlack;
+const Color secondaryTextColorLight = neutralGray700;
+const Color tertiaryTextColorLight = neutralGray200;
+
+// -- Cores de Fundo --
+const Color screenBackgroundColorLight = neutralWhite;
+const Color surfaceBackgroundColorLight = neutralGray200; // Para cards, etc.
+
+const Color successColor = Color(0xff00AF54);
+const Color errorColor = Color(0xffE03616);
+
+
+const Color primaryTextColorDark = neutralWhite;
+const Color secondaryTextColorDark = neutralGray200;

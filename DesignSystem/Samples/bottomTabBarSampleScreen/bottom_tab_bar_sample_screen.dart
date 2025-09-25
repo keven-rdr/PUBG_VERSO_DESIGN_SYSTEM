@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:mobileii/DesignSystem/shared/app_constants.dart';
 import '../../Components/BottomTabBar/bottom_tab_bar.dart';
 import '../../Components/BottomTabBar/bottom_tab_bar_view_model.dart';
+import '../../shared/app_constants.dart';
 import '../../shared/colors.dart';
 
 class BottomTabBarPage extends StatefulWidget {

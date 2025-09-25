@@ -7,7 +7,7 @@ class CustomCard extends StatelessWidget {
   final String day;
   final String month;
   final List<CardItem> items;
-  final Widget? topContent; // For the illustration
+  final Widget? topContent;
 
   const CustomCard({
     super.key,
@@ -22,7 +22,6 @@ class CustomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(24.0),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(30.0),
@@ -34,21 +33,34 @@ class CustomCard extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min, // Make column wrap its content
+      // MUDANÇA 1: Usar um Stack para permitir sobreposição.
+      child: Stack(
+        // MUDANÇA 2: ESSENCIAL! Permite que os filhos do Stack "vazem" para fora.
+        clipBehavior: Clip.none,
         children: [
-          // Top section for illustration
-          SizedBox(
-            height: 120, // Adjust as needed
-            child: topContent ?? Container(),
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 80),
+                _buildDateAndTemp(),
+                const SizedBox(height: 30),
+                _buildCardItems(),
+              ],
+            ),
           ),
-          const SizedBox(height: 20),
-          // Date and Temperature Section
-          _buildDateAndTemp(),
-          const SizedBox(height: 30),
-          // Circular Items Section
-          _buildCardItems(),
+
+          // MUDANÇA 3: Usar o widget Positioned para controlar a localização da animação.
+          if (topContent != null)
+            Positioned(
+              top: -75,
+              right: -29,
+              width: 260,
+              height: 260,
+              child: topContent!,
+            ),
         ],
       ),
     );
@@ -58,7 +70,6 @@ class CustomCard extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Date
         RichText(
           text: TextSpan(
             style: const TextStyle(color: Colors.white, fontFamily: '.SF UI Text'),
@@ -68,8 +79,8 @@ class CustomCard extends StatelessWidget {
                 style: const TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
               ),
               const TextSpan(
-                text: '\n', // New line
-                style: TextStyle(fontSize: 4), // Small space between lines
+                text: '\n',
+                style: TextStyle(fontSize: 4),
               ),
               TextSpan(
                 text: month,
@@ -79,7 +90,6 @@ class CustomCard extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 8),
-        // Temperature with degree symbol
         Text(
           '$temperature°C',
           style: const TextStyle(

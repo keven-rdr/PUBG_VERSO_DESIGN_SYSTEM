@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
-enum ActionButtonSize{
+enum ActionButtonSize {
   small,
   medium,
   large
 }
 
-enum ActionButtonStyle{
+enum ActionButtonStyle {
   primary,
   secondary,
-  tertiary
+  tertiary,
+  outline,
+  ghost,
 }
 
 class ActionButtonViewModel {

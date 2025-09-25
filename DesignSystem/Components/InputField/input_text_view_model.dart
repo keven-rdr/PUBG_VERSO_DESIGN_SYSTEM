@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 class InputTextViewModel {
   final TextEditingController controller;
   final String placeholder;
-  bool password;
-  final Widget? suffixIcon;
+  final bool password;
+  final Widget? customSuffixIcon;
   final bool isEnabled;
+  final bool clearable;
   final String? Function(String?)? validator;
-  final VoidCallback? togglePasswordVisibility;
 
   InputTextViewModel({
     required this.controller,
-    required this.placeholder,
-    required this.password,
-    this.suffixIcon,
+    this.placeholder = '',
+    this.password = false,
+    this.customSuffixIcon,
     this.isEnabled = true,
+    this.clearable = false,
     this.validator,
-    this.togglePasswordVisibility,
   });
 }

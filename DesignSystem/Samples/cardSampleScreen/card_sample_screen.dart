@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:lottie/lottie.dart';
 import '../../Components/Card/card.dart';
 import '../../Components/Card/card_view_model.dart';
 
@@ -11,26 +11,20 @@ class CardPage extends StatefulWidget {
 }
 
 class _CardPageState extends State<CardPage> {
-  // Animation state
   bool _isTapped = false;
 
   @override
   Widget build(BuildContext context) {
-    // Sample data for the card items
     final List<CardItem> cardItems = [
       CardItem(icon: Icons.kitchen, label: 'Kitchen', onTap: () => _showSnackBar('Kitchen tapped!')),
       CardItem(icon: Icons.bathtub, label: 'Bathroom', onTap: () => _showSnackBar('Bathroom tapped!')),
       CardItem(icon: Icons.chair, label: 'Sofa', onTap: () => _showSnackBar('Sofa tapped!')),
     ];
 
-    // Placeholder for the top illustration
-    final Widget topIllustration = Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Icon(Icons.lightbulb, color: Colors.yellow.shade700, size: 30),
-        const SizedBox(width: 20),
-        const Icon(Icons.people, color: Colors.white, size: 70),
-      ],
+    final Widget topAnimation = Lottie.asset(
+      'assets/animations/gifone.json',
+      height: 120,
+      fit: BoxFit.contain,
     );
 
     return Scaffold(
@@ -57,7 +51,7 @@ class _CardPageState extends State<CardPage> {
                 day: '24',
                 month: 'January',
                 items: cardItems,
-                topContent: topIllustration,
+                topContent: topAnimation,
               ),
             ),
           ),
