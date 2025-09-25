@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum ActionButtonSize{
+enum ActionButtonSize {
   small,
   medium,
   large
@@ -9,20 +9,23 @@ enum ActionButtonSize{
 enum ActionButtonStyle {
   primary,
   secondary,
-  tertiary
+  tertiary,
+  outline,
+  ghost,
 }
 
 class ActionButtonViewModel {
-  final ActionButtonStyle style;
   final ActionButtonSize size;
+  final ActionButtonStyle style;
   final String text;
   final IconData? icon;
+  final Function() onPressed;
 
-
-  ActionButtonViewModel ({
+  ActionButtonViewModel({
     required this.size,
     required this.style,
     required this.text,
-    this.icon});
-
+    required this.onPressed,
+    this.icon
+  });
 }
