@@ -1,43 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import '../../shared/colors.dart';
 import 'input_text_view_model.dart';
-
 
 class StyledInputField extends StatefulWidget {
   final InputTextViewModel viewModel;
 
-  const StyledInputField._({Key? key, required this.viewModel}) : super(key: key);
-
-  @override
-  StyledInputFieldState createState() => StyledInputFieldState();
+  const StyledInputField._({super.key, required this.viewModel});
 
   static Widget instantiate({required InputTextViewModel viewModel}) {
     return StyledInputField._(viewModel: viewModel);
   }
+
+  @override
+  StyledInputFieldState createState() => StyledInputFieldState();
 }
 
 class StyledInputFieldState extends State<StyledInputField> {
   late bool _obscureText;
   String? _errorMsg;
-  bool _hasText = false;
 
   @override
   void initState() {
     super.initState();
-    _obscureText = widget.viewModel.password;
-    _hasText = widget.viewModel.controller.text.isNotEmpty;
-    widget.viewModel.controller.addListener(_onTextChanged);
+    _obscureText = widget.viewModel.isPassword;
+    widget.viewModel.controller.addListener(_validate);
   }
 
-  void _onTextChanged() {
-    final errorText = widget.viewModel.validator?.call(widget.viewModel.controller.text);
-
-    final newHasText = widget.viewModel.controller.text.isNotEmpty;
-
-    if (mounted && (errorText != _errorMsg || newHasText != _hasText)) {
+  void _validate() {
+    final error = widget.viewModel.validator?.call(widget.viewModel.controller.text);
+    if (mounted && error != _errorMsg) {
       setState(() {
-        _errorMsg = errorText;
-        _hasText = newHasText;
+        _errorMsg = error;
       });
     }
   }
@@ -50,72 +44,72 @@ class StyledInputFieldState extends State<StyledInputField> {
 
   @override
   void dispose() {
-    widget.viewModel.controller.removeListener(_onTextChanged);
+    widget.viewModel.controller.removeListener(_validate);
     super.dispose();
-  }
-
-  Widget? _buildSuffixIcon() {
-    if (_errorMsg != null) {
-      return const Icon(Icons.error_outline, color: errorColor);
-    }
-    if (widget.viewModel.password) {
-      return IconButton(
-        icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility, color: neutralGray700),
-        onPressed: _togglePasswordVisibility,
-      );
-    }
-    if (widget.viewModel.clearable && _hasText) {
-      return IconButton(
-        icon: const Icon(Icons.cancel, color: neutralGray700),
-        onPressed: () => widget.viewModel.controller.clear(),
-      );
-    }
-    if (widget.viewModel.customSuffixIcon != null) {
-      return widget.viewModel.customSuffixIcon;
-    }
-    return null;
   }
 
   @override
   Widget build(BuildContext context) {
-    final baseBorder = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12.0),
-      borderSide: const BorderSide(color: neutralGray200, width: 1.5),
+    final isDark = widget.viewModel.theme == InputFieldTheme.dark;
+    final backgroundColor = isDark ? brandSecondary : neutralLight;
+    final textColor = isDark ? neutralLight : brandSecondary;
+    final hintColor = isDark ? neutralGrey.withOpacity(0.6) : neutralGrey;
+    final labelColor = brandPrimary;
+
+    const inputBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(50.0)),
+      borderSide: BorderSide.none,
     );
 
-    final errorBorder = baseBorder.copyWith(
-      borderSide: const BorderSide(color: errorColor, width: 1.5),
+    final errorBorder = inputBorder.copyWith(
+      borderSide: const BorderSide(color: destructive, width: 2),
     );
 
-    final focusedBorder = baseBorder.copyWith(
-      borderSide: const BorderSide(color: brandBlue, width: 1.5),
-    );
-
-    return TextFormField(
-      controller: widget.viewModel.controller,
-      obscureText: _obscureText,
-      enabled: widget.viewModel.isEnabled,
-      style: const TextStyle(color: primaryTextColorLight, fontSize: 16),
-      decoration: InputDecoration(
-        contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-        filled: true,
-        fillColor: widget.viewModel.isEnabled ? neutralWhite : neutralGray200,
-        hintText: widget.viewModel.placeholder,
-        hintStyle: const TextStyle(color: secondaryTextColorLight, fontSize: 16),
-        suffixIcon: _buildSuffixIcon(),
-
-        border: baseBorder,
-        enabledBorder: baseBorder,
-        focusedBorder: focusedBorder,
-        errorBorder: errorBorder,
-        focusedErrorBorder: errorBorder,
-        disabledBorder: baseBorder.copyWith(
-            borderSide: BorderSide(color: neutralGray200.withOpacity(0.7))
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, bottom: 8.0),
+          child: Text(
+            widget.viewModel.label,
+            style: TextStyle(
+              color: labelColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+          ),
         ),
+        TextFormField(
+          controller: widget.viewModel.controller,
+          obscureText: _obscureText,
+          enabled: widget.viewModel.isEnabled,
+          style: TextStyle(color: textColor, fontSize: 16),
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+            filled: true,
+            fillColor: backgroundColor.withOpacity(widget.viewModel.isEnabled ? 1.0 : 0.5),
+            hintText: widget.viewModel.hintText,
+            hintStyle: TextStyle(color: hintColor),
 
-        errorText: null,
-        errorStyle: const TextStyle(height: 0),
-      ),
+            suffixIcon: widget.viewModel.isPassword
+                ? IconButton(
+              icon: Icon(_obscureText ? LucideIcons.eyeOff : LucideIcons.eye, color: hintColor),
+              onPressed: _togglePasswordVisibility,
+            )
+                : null,
+
+            border: inputBorder,
+            enabledBorder: inputBorder,
+            focusedBorder: inputBorder,
+            disabledBorder: inputBorder,
+            errorBorder: errorBorder,
+            focusedErrorBorder: errorBorder,
+
+            errorText: _errorMsg,
+            errorStyle: const TextStyle(height: 0, fontSize: 0),
+          ),
+        ),
+      ],
     );
   }
 }

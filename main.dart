@@ -47,7 +47,6 @@ class ButtonScreen extends StatelessWidget {
               _buildButton(context, 'Bottom Tab Bar', BottomTabBarPage()),
               _buildButton(context, 'Input Text Field', InputFieldPage()),
               _buildButton(context, 'Linked Label', LinkedLabelPage()),
-              _buildButton(context, 'Tab Bar', TabPage()),
               _buildButton(context, 'Card', CardPage()),
             ],
           ),

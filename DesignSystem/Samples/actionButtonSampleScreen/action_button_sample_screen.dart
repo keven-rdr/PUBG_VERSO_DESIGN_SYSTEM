@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import '../../Components/Buttons/ActionButton/action_button.dart';
 import '../../Components/Buttons/ActionButton/action_button_view_model.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+
 
 class ActionButtonPage extends StatelessWidget {
   const ActionButtonPage({super.key});
@@ -9,83 +10,87 @@ class ActionButtonPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F5F5),
       appBar: AppBar(
-        title: const Text('Action Button Demo'),
+        title: const Text('Demonstração de Botões'),
+        backgroundColor: Colors.white,
+        elevation: 1,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSectionTitle('Primary Buttons'),
-            _buildButtonRow(ActionButtonStyle.primary),
-            const SizedBox(height: 20),
+      body: ListView(
+        padding: const EdgeInsets.all(24.0),
+        children: [
+          _buildSectionTitle('Primary Buttons'),
+          _buildButtonRow([
+            ActionButtonViewModel(
+                size: ActionButtonSize.large, style: ActionButtonStyle.primary, text: 'Entrar', onPressed: () {}),
+            ActionButtonViewModel(
+                size: ActionButtonSize.large, style: ActionButtonStyle.primary, text: 'Entrar', onPressed: null), // Exemplo desabilitado
+          ]),
+          _buildButtonRow([
+            ActionButtonViewModel(
+                size: ActionButtonSize.large, style: ActionButtonStyle.primary, text: '', icon: LucideIcons.plus, onPressed: () {}),
+            ActionButtonViewModel(
+                size: ActionButtonSize.large, style: ActionButtonStyle.primary, text: '', icon: LucideIcons.arrowLeft, onPressed: null), // Exemplo desabilitado
+          ]),
+          const SizedBox(height: 30),
 
-            _buildSectionTitle('Secondary Buttons'),
-            _buildButtonRow(ActionButtonStyle.secondary),
-            const SizedBox(height: 20),
+          _buildSectionTitle('Secondary Buttons'),
+          _buildButtonRow([
+            ActionButtonViewModel(
+                size: ActionButtonSize.medium, style: ActionButtonStyle.secondary, text: 'Button', icon: LucideIcons.check, onPressed: () {}),
+            ActionButtonViewModel(
+                size: ActionButtonSize.medium, style: ActionButtonStyle.secondary, text: '', icon: LucideIcons.plus, onPressed: () {}),
+          ]),
+          const SizedBox(height: 30),
 
-            _buildSectionTitle('Tertiary Buttons'),
-            _buildButtonRow(ActionButtonStyle.tertiary),
-            const SizedBox(height: 20),
+          _buildSectionTitle('Destructive Buttons'),
+          _buildButtonRow([
+            ActionButtonViewModel(
+                size: ActionButtonSize.medium, style: ActionButtonStyle.destructive, text: 'Sair', icon: LucideIcons.logOut, onPressed: () {}),
+            ActionButtonViewModel(
+                size: ActionButtonSize.medium, style: ActionButtonStyle.destructive, text: 'Sair', icon: LucideIcons.logOut, onPressed: null),
+          ]),
+          const SizedBox(height: 30),
 
-            _buildSectionTitle('Outline Buttons'),
-            _buildButtonRow(ActionButtonStyle.outline),
-            const SizedBox(height: 20),
+          _buildSectionTitle('Outline Buttons'),
+          _buildButtonRow([
+            ActionButtonViewModel(
+                size: ActionButtonSize.small, style: ActionButtonStyle.outline, text: 'Ver Detalhes', onPressed: () {}),
+            ActionButtonViewModel(
+                size: ActionButtonSize.small, style: ActionButtonStyle.outline, text: '', icon: LucideIcons.share2, onPressed: () {}),
+          ]),
+          const SizedBox(height: 30),
 
-            _buildSectionTitle('Ghost Buttons'),
-            _buildButtonRow(ActionButtonStyle.ghost),
-            const SizedBox(height: 20),
-          ],
-        ),
+          _buildSectionTitle('Ghost & Tertiary Buttons'),
+          _buildButtonRow([
+            ActionButtonViewModel(
+                size: ActionButtonSize.small, style: ActionButtonStyle.ghost, text: 'Cancelar', onPressed: () {}),
+            ActionButtonViewModel(
+                size: ActionButtonSize.small, style: ActionButtonStyle.tertiary, text: 'Refazer', icon: LucideIcons.rotateCw, onPressed: () {}),
+          ]),
+        ],
       ),
     );
   }
 
   Widget _buildSectionTitle(String title) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.only(bottom: 16.0),
       child: Text(
         title,
-        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF333333)),
       ),
     );
   }
 
-  Widget _buildButtonRow(ActionButtonStyle style) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        // Botão sem ícone
-        ActionButton.instantiate(
-          viewModel: ActionButtonViewModel(
-            size: ActionButtonSize.large,
-            style: style,
-            text: 'Button',
-            onPressed: () {},
-          ),
-        ),
-        // Botão com ícone (seta para a esquerda)
-        ActionButton.instantiate(
-          viewModel: ActionButtonViewModel(
-            size: ActionButtonSize.large,
-            style: style,
-            text: 'Button',
-            icon: LucideIcons.arrowLeft,
-            onPressed: () {},
-          ),
-        ),
-        // Apenas ícone (seta para cima)
-        ActionButton.instantiate(
-          viewModel: ActionButtonViewModel(
-            size: ActionButtonSize.large,
-            style: style,
-            text: '',
-            icon: LucideIcons.arrowUp,
-            onPressed: () {},
-          ),
-        ),
-      ],
+  Widget _buildButtonRow(List<ActionButtonViewModel> viewModels) {
+    return Wrap(
+      spacing: 16.0,
+      runSpacing: 16.0,
+      alignment: WrapAlignment.start,
+      children: viewModels
+          .map((viewModel) => ActionButton.instantiate(viewModel: viewModel))
+          .toList(),
     );
   }
 }

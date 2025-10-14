@@ -1,137 +1,66 @@
 import 'package:flutter/material.dart';
-import 'card.dart';
 
-class CustomCard extends StatelessWidget {
-  final Color backgroundColor;
-  final String temperature;
-  final String day;
-  final String month;
-  final List<CardItem> items;
-  final Widget? topContent;
+enum CardTheme { light, dark }
 
-  const CustomCard({
-    super.key,
-    this.backgroundColor = const Color(0xFF3A47A6),
-    required this.temperature,
-    required this.day,
-    required this.month,
-    required this.items,
-    this.topContent,
+class CardAction {
+  final IconData icon;
+  final VoidCallback onTap;
+  final Color? iconColor;
+
+  CardAction({
+    required this.icon,
+    required this.onTap,
+    this.iconColor,
   });
+}
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(30.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      // MUDANÇA 1: Usar um Stack para permitir sobreposição.
-      child: Stack(
-        // MUDANÇA 2: ESSENCIAL! Permite que os filhos do Stack "vazem" para fora.
-        clipBehavior: Clip.none,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const SizedBox(height: 80),
-                _buildDateAndTemp(),
-                const SizedBox(height: 30),
-                _buildCardItems(),
-              ],
-            ),
-          ),
+class FormFieldModel {
+  final String label;
+  final String value;
 
-          // MUDANÇA 3: Usar o widget Positioned para controlar a localização da animação.
-          if (topContent != null)
-            Positioned(
-              top: -75,
-              right: -29,
-              width: 260,
-              height: 260,
-              child: topContent!,
-            ),
-        ],
-      ),
-    );
-  }
+  FormFieldModel({required this.label, required this.value});
+}
 
-  Widget _buildDateAndTemp() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        RichText(
-          text: TextSpan(
-            style: const TextStyle(color: Colors.white, fontFamily: '.SF UI Text'),
-            children: [
-              TextSpan(
-                text: day,
-                style: const TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
-              ),
-              const TextSpan(
-                text: '\n',
-                style: TextStyle(fontSize: 4),
-              ),
-              TextSpan(
-                text: month,
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w300),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(width: 8),
-        Text(
-          '$temperature°C',
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.w300,
-          ),
-        ),
-      ],
-    );
-  }
 
-  Widget _buildCardItems() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: items.map((item) => _buildCircleItem(item)).toList(),
-    );
-  }
+abstract class AppCardViewModel {
+  final CardTheme theme;
+  AppCardViewModel({this.theme = CardTheme.dark});
+}
 
-  Widget _buildCircleItem(CardItem item) {
-    return GestureDetector(
-      onTap: item.onTap,
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(item.icon, color: Colors.white, size: 24),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            item.label,
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.8),
-              fontSize: 12,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+class InfoCardViewModel extends AppCardViewModel {
+  final String imagePath;
+  final String title;
+  final Map<String, String> details;
+  final List<CardAction> actions;
+
+  InfoCardViewModel({
+    required this.imagePath,
+    required this.title,
+    required this.details,
+    required this.actions,
+    super.theme,
+  });
+}
+
+class FormCardViewModel extends AppCardViewModel {
+  final String title;
+  final List<FormFieldModel> fields;
+
+  FormCardViewModel({
+    required this.title,
+    required this.fields,
+    super.theme,
+  });
+}
+
+
+class ContainerCardViewModel extends AppCardViewModel {
+  final String title;
+  final Widget child;
+
+  ContainerCardViewModel({
+    required this.title,
+    required this.child,
+    super.theme,
+  });
 }

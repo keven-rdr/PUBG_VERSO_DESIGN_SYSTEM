@@ -1,92 +1,88 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import '../../Components/InputField/input_text.dart';
 import '../../Components/InputField/input_text_view_model.dart';
 import '../../shared/colors.dart';
 
-class InputFieldPage extends StatelessWidget {
-  InputFieldPage({super.key});
+class InputFieldPage extends StatefulWidget {
+  const InputFieldPage({super.key});
 
-  Widget _buildSectionTitle(String title) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 24.0, bottom: 8.0),
-      child: Text(
-        title,
-        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: primaryTextColorLight),
-      ),
-    );
+  @override
+  State<InputFieldPage> createState() => _InputFieldPageState();
+}
+
+class _InputFieldPageState extends State<InputFieldPage> {
+  InputFieldTheme _currentTheme = InputFieldTheme.dark;
+
+  void _toggleTheme() {
+    setState(() {
+      _currentTheme = _currentTheme == InputFieldTheme.dark
+          ? InputFieldTheme.light
+          : InputFieldTheme.dark;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final isDark = _currentTheme == InputFieldTheme.dark;
+    final pageBackgroundColor = isDark ? brandSecondary.withOpacity(0.9) : const Color(0xFFF0F0F0);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Input Field Demo'),
-        backgroundColor: screenBackgroundColorLight,
+        actions: [
+          IconButton(
+            icon: Icon(isDark ? LucideIcons.sun : LucideIcons.moon),
+            onPressed: _toggleTheme,
+            tooltip: 'Mudar Tema',
+          )
+        ],
       ),
-      backgroundColor: screenBackgroundColorLight,
+      backgroundColor: pageBackgroundColor,
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // --- Seção de Estados Normais ---
-            _buildSectionTitle('Enabled States'),
             StyledInputField.instantiate(
               viewModel: InputTextViewModel(
+                theme: _currentTheme,
                 controller: TextEditingController(),
-                placeholder: 'Placeholder',
+                label: 'Login',
+                hintText: '@username',
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
             StyledInputField.instantiate(
               viewModel: InputTextViewModel(
-                controller: TextEditingController(text: 'Value'),
-                placeholder: 'Label',
-                clearable: true, // Adicionado para mostrar o 'x'
-              ),
-            ),
-            const SizedBox(height: 16),
-            StyledInputField.instantiate(
-              viewModel: InputTextViewModel(
+                theme: _currentTheme,
                 controller: TextEditingController(),
-                placeholder: 'Input with custom icon',
-                customSuffixIcon: const Icon(Icons.calendar_today, color: neutralGray700),
+                label: 'Senha',
+                hintText: 'Sua senha',
+                isPassword: true,
               ),
             ),
-
-            // --- Seção de Senha ---
-            _buildSectionTitle('Password Field'),
+            const SizedBox(height: 24),
             StyledInputField.instantiate(
               viewModel: InputTextViewModel(
-                controller: TextEditingController(text: 'password123'),
-                placeholder: 'Password',
-                password: true,
-              ),
-            ),
-
-            // --- Seção de Erro ---
-            _buildSectionTitle('Error State'),
-            StyledInputField.instantiate(
-              viewModel: InputTextViewModel(
-                controller: TextEditingController(text: 'Invalid value!'),
-                placeholder: 'Label',
-                validator: (value) => 'Este campo tem um erro.',
-              ),
-            ),
-
-            _buildSectionTitle('Disabled States'),
-            StyledInputField.instantiate(
-              viewModel: InputTextViewModel(
+                theme: _currentTheme,
                 controller: TextEditingController(),
-                placeholder: 'Disabled',
-                isEnabled: false,
+                label: 'Campo com Erro',
+                hintText: 'Digite algo inválido',
+                validator: (value) {
+                  if (value == null || value.length < 5) {
+                    return 'O valor é muito curto';
+                  }
+                  return null;
+                },
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
             StyledInputField.instantiate(
               viewModel: InputTextViewModel(
-                controller: TextEditingController(text: 'Disabled with value'),
-                placeholder: 'Label',
+                theme: _currentTheme,
+                controller: TextEditingController(text: "Não editável"),
+                label: 'Desabilitado',
                 isEnabled: false,
               ),
             ),
