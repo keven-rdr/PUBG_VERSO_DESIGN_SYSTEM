@@ -32,22 +32,22 @@ class _CustomTabBarState extends State<CustomTabBar> {
             widget.onTabSelected(index);
           },
           child: Container(
-            width: MediaQuery.of(context).size.width / widget.viewModel.tabTitles.length, // Divide a largura disponível entre as abas
+            width: MediaQuery.of(context).size.width / widget.viewModel.tabTitles.length,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   widget.viewModel.tabTitles[index],
-                  textAlign: TextAlign.center, // Centraliza o texto horizontalmente
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     color: isSelected ? Color(0xFFF8D247) : Colors.white,
                     fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                   ),
                 ),
                 Container(
-                  height: 4, // Mantém a altura da linha sempre, independente de estar selecionada ou não
-                  width: double.infinity, // Ocupa toda a largura do espaço da aba
-                  color: isSelected ? Color(0xFFF8D247) : Colors.transparent, // Cor ou transparente
+                  height: 4,
+                  width: double.infinity,
+                  color: isSelected ? Color(0xFFF8D247) : Colors.transparent,
                 ),
               ],
             ),

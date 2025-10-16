@@ -11,10 +11,8 @@ class ValueCardPage extends StatefulWidget {
 }
 
 class _ValueCardPageState extends State<ValueCardPage> {
-  // ESTADO PARA CONTROLAR O TEMA ATUAL
   ValueCardTheme _currentTheme = ValueCardTheme.dark;
 
-  // FUNÇÃO PARA ALTERNAR O TEMA
   void _toggleTheme() {
     setState(() {
       _currentTheme = _currentTheme == ValueCardTheme.dark
@@ -53,7 +51,6 @@ class _ValueCardPageState extends State<ValueCardPage> {
       backgroundColor: isDark ? Colors.grey[850] : const Color(0xFFF0F0F0),
       appBar: AppBar(
         title: const Text('Value Card Component'),
-        // BOTÃO PARA ALTERNAR O TEMA
         actions: [
           IconButton(
             icon: Icon(isDark ? LucideIcons.sun : LucideIcons.moon),

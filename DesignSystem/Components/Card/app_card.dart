@@ -53,7 +53,6 @@ class AppCard extends StatelessWidget {
           width: 120,
           height: 80,
           decoration: BoxDecoration(
-            // CORREÇÃO: Usando a cor 'neutralGray200' que existe no seu Design System
             color: vm.theme == CardTheme.dark ? Colors.black.withOpacity(0.2) : neutralGray200,
             borderRadius: BorderRadius.circular(16),
           ),

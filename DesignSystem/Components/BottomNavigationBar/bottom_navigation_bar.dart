@@ -11,7 +11,6 @@ class CustomBottomNavigationBar extends StatefulWidget {
   @override
   _CustomBottomNavigationBarState createState() => _CustomBottomNavigationBarState();
 
-  // Método para instanciar o widget com o ViewModel apropriado
   static Widget instantiate({required ActionBottomBarViewModel viewModel}) {
     return CustomBottomNavigationBar._(viewModel);
   }

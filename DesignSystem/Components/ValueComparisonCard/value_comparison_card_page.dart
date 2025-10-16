@@ -1,4 +1,4 @@
-import 'package:asdasd/Design_System/DesignSystem/Components/ValueComparisonCard/value_comparison_card_view_model.dart';
+import 'package:asdasd/DesignSystem/Components/ValueComparisonCard/value_comparison_card_view_model.dart';
 import 'package:flutter/material.dart';
 import '../../shared/colors.dart';
 
@@ -31,7 +31,6 @@ class ValueComparisonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // LÓGICA PARA DEFINIR AS CORES COM BASE NO TEMA
     final bool isDark = viewModel.theme == ValueCardTheme.dark;
     final Color cardColor = isDark ? brandSecondary.withOpacity(0.8) : neutralLight;
     final Color textColor = isDark ? neutralLight.withOpacity(0.9) : brandSecondary.withOpacity(0.8);

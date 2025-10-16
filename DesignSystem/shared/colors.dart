@@ -21,7 +21,6 @@ const Color tertiaryTextColorLight = neutralGray200;
 const Color screenBackgroundColorLight = neutralWhite;
 const Color surfaceBackgroundColorLight = neutralGray200;
 
-//Brand colors
 const Color lightPrimaryBrandColor = Color(0xffFAE187);
 const Color normalPrimaryBrandColor = Color(0xffF8D247);
 const Color darkPrimaryBrandColor = Color(0xffE0B827);
