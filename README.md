@@ -22,6 +22,14 @@ O projeto foi desenvolvido em **Flutter** e estruturado em torno de um **Design 
 
 ---
 
+## Link do projeto de referência do Figma
+
+Acesse o design system completo clicando na logo ou no link abaixo:
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg" alt="Figma Logo" width="30" style="vertical-align:middle; margin-right:10px;"/>
+
+[Link do figma](https://www.figma.com/design/0nQkZqlBB17JfuEAVssQOd/PUBG-VERSOS?node-id=0-1&t=pM7TpIsq1tZsnlle-1)
+
 ## Como Executar o Projeto
 
 Para executar este projeto em sua máquina local, siga os passos abaixo:
