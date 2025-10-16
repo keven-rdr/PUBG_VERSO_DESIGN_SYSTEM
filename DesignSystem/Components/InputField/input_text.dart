@@ -97,12 +97,10 @@ class StyledInputFieldState extends State<StyledInputField> {
       ),
     );
 
-    // Se não houver label, retorna apenas o campo de texto.
     if (widget.viewModel.label == null || widget.viewModel.label!.isEmpty) {
       return textFormField;
     }
 
-    // Se houver label, retorna o campo com o texto acima.
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

@@ -16,7 +16,6 @@ class PlatformPage extends StatelessWidget {
       body: Center(
         child: ComparisonPlatform(
           viewModel: ComparisonPlatformViewModel(
-            // Certifique-se de que esta imagem PNG existe nos seus assets
             imagePath: 'assets/images/ace32.png',
             size: 250,
           ),

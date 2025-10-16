@@ -75,7 +75,6 @@ class ActionButtonPage extends StatelessWidget {
           ]),
           const SizedBox(height: 30),
 
-          // >>>>>>>> AQUI ESTÁ A SEÇÃO QUE FALTAVA <<<<<<<<<<
           _buildSectionTitle('Trash Button'),
           _buildButtonRow([
             ActionButtonViewModel(

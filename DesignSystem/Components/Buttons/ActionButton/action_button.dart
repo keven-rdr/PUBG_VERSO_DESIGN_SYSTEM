@@ -80,7 +80,6 @@ class ActionButton extends StatelessWidget {
         foregroundColor = brandSecondary;
         break;
       case ActionButtonStyle.primaryDarkIcon:
-        // TODO: Handle this case.
         throw UnimplementedError();
     }
 

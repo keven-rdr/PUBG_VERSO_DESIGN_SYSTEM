@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// NOVO ENUM PARA CONTROLAR O TEMA
 enum ValueCardTheme { light, dark }
 
 class ValueEntry {

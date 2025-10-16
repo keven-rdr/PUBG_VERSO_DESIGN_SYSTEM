@@ -15,15 +15,12 @@ class AvatarPage extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            // Avatar com Imagem
             UserAvatar(
               viewModel: UserAvatarViewModel(
-                // Certifique-se de que esta imagem existe nos seus assets
                 imagePath: 'assets/img/avatar/user_photo.jpg',
                 radius: 50,
               ),
             ),
-            // Avatar Vazio
             UserAvatar(
               viewModel: UserAvatarViewModel(
                 radius: 50,
