@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' hide CardTheme;
 import '../../shared/colors.dart';
+import '../Buttons/ActionButton/action_button.dart';
 import 'card_view_model.dart';
 
 class AppCard extends StatelessWidget {
@@ -9,21 +10,20 @@ class AppCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Define as cores com base no tema do card
     final bool isDark = viewModel.theme == CardTheme.dark;
     final Color cardColor = isDark ? brandSecondary : neutralLight;
-    final Color textColor = isDark ? neutralLight : brandSecondary;
-    final Color faintTextColor = isDark ? neutralGrey : brandSecondary.withOpacity(0.7);
+    final Color titleColor = isDark ? neutralLight : brandPrimary;
+    final Color primaryTextColor = isDark ? neutralLight : brandSecondary;
+    final Color secondaryTextColor = isDark ? neutralGrey : brandSecondary.withOpacity(0.7);
 
-    // Corpo do card, que muda de acordo com o ViewModel
     Widget cardContent;
 
     if (viewModel is InfoCardViewModel) {
-      cardContent = _buildInfoCardContent(viewModel as InfoCardViewModel, textColor, faintTextColor);
+      cardContent = _buildInfoCardContent(viewModel as InfoCardViewModel, titleColor, primaryTextColor, secondaryTextColor);
     } else if (viewModel is FormCardViewModel) {
-      cardContent = _buildFormCardContent(viewModel as FormCardViewModel, textColor);
+      cardContent = _buildFormCardContent(viewModel as FormCardViewModel, titleColor, primaryTextColor);
     } else if (viewModel is ContainerCardViewModel) {
-      cardContent = _buildContainerCardContent(viewModel as ContainerCardViewModel, textColor);
+      cardContent = _buildContainerCardContent(viewModel as ContainerCardViewModel, titleColor);
     } else {
       cardContent = const Center(child: Text('Tipo de Card Inválido'));
     }
@@ -45,83 +45,85 @@ class AppCard extends StatelessWidget {
     );
   }
 
-  // Constrói o layout para o Card de Informação (com imagem e detalhes)
-  Widget _buildInfoCardContent(InfoCardViewModel vm, Color textColor, Color faintTextColor) {
+  Widget _buildInfoCardContent(InfoCardViewModel vm, Color titleColor, Color textColor, Color faintTextColor) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Imagem da Arma
         Container(
           width: 120,
           height: 80,
           decoration: BoxDecoration(
-            color: vm.theme == CardTheme.dark ? Colors.black.withOpacity(0.2) : neutralGrey.withOpacity(0.2),
+            // CORREÇÃO: Usando a cor 'neutralGray200' que existe no seu Design System
+            color: vm.theme == CardTheme.dark ? Colors.black.withOpacity(0.2) : neutralGray200,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            // Lembre-se de adicionar a imagem nos seus assets!
             child: Image.asset(vm.imagePath, fit: BoxFit.contain),
           ),
         ),
         const SizedBox(width: 16),
-        // Detalhes e Título
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(vm.title, style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold)),
+              Text(vm.title, style: TextStyle(color: titleColor, fontSize: 22, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
-              // Mapeia os detalhes para widgets de texto
               ...vm.details.entries.map(
                     (entry) => Text(
                   '${entry.key}: ${entry.value}',
-                  style: TextStyle(color: faintTextColor, fontSize: 12),
+                  style: TextStyle(color: faintTextColor, fontSize: 12, height: 1.5),
                 ),
               ),
             ],
           ),
         ),
         const SizedBox(width: 8),
-        // Botões de Ação
         Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: vm.actions.map((action) => _CardActionButton(action: action, theme: vm.theme)).toList(),
+          children: vm.actions.map((action) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: ActionButton.instantiate(viewModel: action.viewModel),
+            );
+          }).toList(),
         ),
       ],
     );
   }
 
-  // Constrói o layout para o Card de Formulário
-  Widget _buildFormCardContent(FormCardViewModel vm, Color textColor) {
+  Widget _buildFormCardContent(FormCardViewModel vm, Color titleColor, Color textColor) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(vm.title, style: TextStyle(color: textColor, fontSize: 16, fontWeight: FontWeight.bold)),
+        Text(vm.title, style: TextStyle(color: titleColor, fontSize: 16, fontWeight: FontWeight.bold)),
         const SizedBox(height: 16),
         ...vm.fields.map((field) => _buildFormField(field, vm.theme)),
       ],
     );
   }
 
-  // Widget auxiliar para os campos de texto do formulário
   Widget _buildFormField(FormFieldModel field, CardTheme theme) {
     final bool isDark = theme == CardTheme.dark;
-    final Color fieldColor = isDark ? Colors.black.withOpacity(0.2) : neutralGrey.withOpacity(0.2);
+    final Color fieldBackgroundColor = isDark ? Colors.black.withOpacity(0.2) : Colors.transparent;
     final Color textColor = isDark ? neutralLight : brandSecondary;
+    final Color labelColor = isDark ? neutralGrey : brandSecondary.withOpacity(0.7);
+    final Border? border = isDark ? null : Border.all(color: neutralGrey.withOpacity(0.5));
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 12.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(field.label, style: TextStyle(color: textColor.withOpacity(0.8), fontSize: 12)),
+          Text(field.label, style: TextStyle(color: labelColor, fontSize: 12)),
           const SizedBox(height: 4),
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
-              color: fieldColor,
+              color: fieldBackgroundColor,
               borderRadius: BorderRadius.circular(12),
+              border: border,
             ),
             child: Text(field.value, style: TextStyle(color: textColor, fontSize: 14)),
           ),
@@ -130,13 +132,11 @@ class AppCard extends StatelessWidget {
     );
   }
 
-
-  // Constrói o layout para o Card Container
-  Widget _buildContainerCardContent(ContainerCardViewModel vm, Color textColor) {
+  Widget _buildContainerCardContent(ContainerCardViewModel vm, Color titleColor) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(vm.title, style: TextStyle(color: textColor, fontSize: 16, fontWeight: FontWeight.bold)),
+        Text(vm.title, style: TextStyle(color: titleColor, fontSize: 16, fontWeight: FontWeight.bold)),
         const SizedBox(height: 12),
         vm.child,
       ],
@@ -144,37 +144,3 @@ class AppCard extends StatelessWidget {
   }
 }
 
-/// Widget interno para os botões de ação dos cards.
-class _CardActionButton extends StatelessWidget {
-  final CardAction action;
-  final CardTheme theme;
-
-  const _CardActionButton({required this.action, required this.theme});
-
-  @override
-  Widget build(BuildContext context) {
-    final bool isDark = theme == CardTheme.dark;
-    final Color defaultIconColor = isDark ? neutralGrey : brandSecondary.withOpacity(0.7);
-    final Color backgroundColor = isDark ? Colors.black.withOpacity(0.2) : neutralGrey.withOpacity(0.2);
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Material(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(8),
-        child: InkWell(
-          onTap: action.onTap,
-          borderRadius: BorderRadius.circular(8),
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            child: Icon(
-              action.icon,
-              size: 20,
-              color: action.iconColor ?? defaultIconColor,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}

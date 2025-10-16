@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' hide CardTheme;
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../Components/Card/app_card.dart';
 import '../../Components/Card/card_view_model.dart';
+import '../../Components/Buttons/ActionButton/action_button_view_model.dart';
 import '../../shared/colors.dart';
 
 class CardPage extends StatefulWidget {
@@ -25,58 +26,48 @@ class _CardPageState extends State<CardPage> {
   Widget build(BuildContext context) {
     final isDark = _currentTheme == CardTheme.dark;
 
-
-    final infoCardViewModel = InfoCardViewModel(
+    final infoCard = InfoCardViewModel(
       theme: _currentTheme,
       imagePath: 'assets/images/ace32.png',
       title: 'ACE32 - AR',
-      details: {
-        'Estatísticas': '17.1',
-        'Dano de Acerto': '4.5',
-      },
+      details: {'Estatísticas': '17.1', 'Dano de Acerto': '4.5'},
       actions: [
-        CardAction(icon: LucideIcons.chevronDown, onTap: () => _showSnackBar('Expandir')),
-        CardAction(icon: LucideIcons.plus, onTap: () => _showSnackBar('Adicionar')),
+        CardAction(viewModel: ActionButtonViewModel(size: ActionButtonSize.small, style: ActionButtonStyle.primary, icon: LucideIcons.chevronDown, onPressed: () {})),
+        CardAction(viewModel: ActionButtonViewModel(size: ActionButtonSize.small, style: ActionButtonStyle.primary, icon: LucideIcons.plus, onPressed: () {})),
       ],
     );
 
-    final infoCardDeletableViewModel = InfoCardViewModel(
+    final infoCardDeletable = InfoCardViewModel(
       theme: _currentTheme,
       imagePath: 'assets/images/ace32.png',
       title: 'ACE32 - AR (Favorito)',
-      details: {
-        'Modo de disparo': 'Único, Automático',
-        'Tipo': 'Rifle de Assalto',
-      },
+      details: {'Visão Geral': 'Rifle de Assalto', 'Tipo': 'Automático'},
       actions: [
-        CardAction(icon: LucideIcons.chevronDown, onTap: () => _showSnackBar('Expandir')),
-        CardAction(icon: LucideIcons.trash2, iconColor: destructive, onTap: () => _showSnackBar('Remover')),
+        CardAction(viewModel: ActionButtonViewModel(size: ActionButtonSize.small, style: ActionButtonStyle.primary, icon: LucideIcons.chevronDown, onPressed: () {})),
+        CardAction(viewModel: ActionButtonViewModel(size: ActionButtonSize.small, style: ActionButtonStyle.trash, icon: LucideIcons.trash2, onPressed: () {})),
       ],
     );
 
-    final formCardViewModel = FormCardViewModel(
+    final formCard = FormCardViewModel(
       theme: _currentTheme,
       title: 'Meus Dados',
       fields: [
-        FormFieldModel(label: 'Nome', value: 'Fulano Pereira Rodrigues'),
-        FormFieldModel(label: 'E-mail', value: 'fulano.rodrigues@email.com'),
+        FormFieldModel(label: 'Nome', value: 'Fulano Pereira'),
+        FormFieldModel(label: 'E-mail', value: 'fulano.pereira@email.com'),
       ],
     );
 
-    final containerCardViewModel = ContainerCardViewModel(
+    final containerCard = ContainerCardViewModel(
       theme: _currentTheme,
       title: 'Meus Favoritos',
       child: Text(
-        'Aqui você pode adicionar qualquer outro widget.\nPerfeito para seções personalizadas.',
-        style: TextStyle(
-          color: isDark ? neutralGrey : brandSecondary.withOpacity(0.8),
-          height: 1.5,
-        ),
+        'Conteúdo personalizado para o container card.',
+        style: TextStyle(color: isDark ? neutralGrey : brandSecondary),
       ),
     );
 
     return Scaffold(
-      backgroundColor: isDark ? brandSecondary.withOpacity(0.95) : const Color(0xFFF5F5F5),
+      backgroundColor: isDark ? brandSecondary.withOpacity(0.95) : const Color(0xFFEFEFEF),
       appBar: AppBar(
         title: const Text('Cards Component'),
         actions: [
@@ -90,51 +81,16 @@ class _CardPageState extends State<CardPage> {
       body: ListView(
         padding: const EdgeInsets.all(20.0),
         children: [
-          const _SectionTitle('Card de Informação'),
-          AppCard(viewModel: infoCardViewModel),
+          AppCard(viewModel: infoCard),
           const SizedBox(height: 16),
-          AppCard(viewModel: infoCardDeletableViewModel),
-          const SizedBox(height: 32),
-
-          const _SectionTitle('Card de Formulário'),
-          AppCard(viewModel: formCardViewModel),
-          const SizedBox(height: 32),
-
-          const _SectionTitle('Card Container'),
-          AppCard(viewModel: containerCardViewModel),
+          AppCard(viewModel: infoCardDeletable),
+          const SizedBox(height: 16),
+          AppCard(viewModel: formCard),
+          const SizedBox(height: 16),
+          AppCard(viewModel: containerCard),
         ],
       ),
     );
   }
-
-  void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        duration: const Duration(seconds: 1),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
 }
 
-class _SectionTitle extends StatelessWidget {
-  final String title;
-  const _SectionTitle(this.title);
-
-  @override
-  Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12.0),
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: isDark ? neutralLight.withOpacity(0.9) : brandSecondary.withOpacity(0.9),
-        ),
-      ),
-    );
-  }
-}
