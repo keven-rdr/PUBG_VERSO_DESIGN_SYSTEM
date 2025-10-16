@@ -86,6 +86,25 @@ class _InputFieldPageState extends State<InputFieldPage> {
                 isEnabled: false,
               ),
             ),
+            const SizedBox(height: 24),
+
+            const Text(
+              'Campo de Busca',
+              style: TextStyle(
+                color: brandPrimary,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+            ),
+            const SizedBox(height: 8),
+            StyledInputField.instantiate(
+              viewModel: InputTextViewModel(
+                theme: _currentTheme,
+                controller: TextEditingController(),
+                hintText: 'Buscar pelo nome da arma',
+                prefixIcon: LucideIcons.search,
+              ),
+            ),
           ],
         ),
       ),

@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../Buttons/ActionButton/action_button_view_model.dart';
+
 enum CardTheme { light, dark }
 
 class CardAction {
-  final IconData icon;
-  final VoidCallback onTap;
-  final Color? iconColor;
-
-  CardAction({
-    required this.icon,
-    required this.onTap,
-    this.iconColor,
-  });
+  final ActionButtonViewModel viewModel;
+  CardAction({ required this.viewModel });
 }
 
 class FormFieldModel {
@@ -64,3 +59,4 @@ class ContainerCardViewModel extends AppCardViewModel {
     super.theme,
   });
 }
+

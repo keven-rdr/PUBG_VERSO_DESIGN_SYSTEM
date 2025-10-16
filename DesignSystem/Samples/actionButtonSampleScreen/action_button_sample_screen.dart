@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+
 import '../../Components/Buttons/ActionButton/action_button.dart';
 import '../../Components/Buttons/ActionButton/action_button_view_model.dart';
-
 
 class ActionButtonPage extends StatelessWidget {
   const ActionButtonPage({super.key});
@@ -24,13 +24,7 @@ class ActionButtonPage extends StatelessWidget {
             ActionButtonViewModel(
                 size: ActionButtonSize.large, style: ActionButtonStyle.primary, text: 'Entrar', onPressed: () {}),
             ActionButtonViewModel(
-                size: ActionButtonSize.large, style: ActionButtonStyle.primary, text: 'Entrar', onPressed: null), // Exemplo desabilitado
-          ]),
-          _buildButtonRow([
-            ActionButtonViewModel(
-                size: ActionButtonSize.large, style: ActionButtonStyle.primary, text: '', icon: LucideIcons.plus, onPressed: () {}),
-            ActionButtonViewModel(
-                size: ActionButtonSize.large, style: ActionButtonStyle.primary, text: '', icon: LucideIcons.arrowLeft, onPressed: null), // Exemplo desabilitado
+                size: ActionButtonSize.large, style: ActionButtonStyle.primary, text: 'Entrar', onPressed: null),
           ]),
           const SizedBox(height: 30),
 
@@ -39,7 +33,36 @@ class ActionButtonPage extends StatelessWidget {
             ActionButtonViewModel(
                 size: ActionButtonSize.medium, style: ActionButtonStyle.secondary, text: 'Button', icon: LucideIcons.check, onPressed: () {}),
             ActionButtonViewModel(
-                size: ActionButtonSize.medium, style: ActionButtonStyle.secondary, text: '', icon: LucideIcons.plus, onPressed: () {}),
+                size: ActionButtonSize.medium, style: ActionButtonStyle.secondary, icon: LucideIcons.plus, onPressed: () {}),
+          ]),
+          const SizedBox(height: 30),
+
+          _buildSectionTitle('Botões de Ícone'),
+          _buildButtonRow([
+            ActionButtonViewModel(
+                size: ActionButtonSize.large, style: ActionButtonStyle.primary, icon: LucideIcons.plus, onPressed: () {}),
+            ActionButtonViewModel(
+                size: ActionButtonSize.large, style: ActionButtonStyle.secondary, icon: LucideIcons.plus, onPressed: () {}),
+            ActionButtonViewModel(
+                size: ActionButtonSize.large, style: ActionButtonStyle.primary, icon: LucideIcons.plus, onPressed: null), // Disabled
+          ]),
+          const SizedBox(height: 5),
+          _buildButtonRow([
+            ActionButtonViewModel(
+                size: ActionButtonSize.large, style: ActionButtonStyle.primary, icon: LucideIcons.chevronLeft, onPressed: () {}),
+            ActionButtonViewModel(
+                size: ActionButtonSize.large, style: ActionButtonStyle.secondary, icon: LucideIcons.chevronLeft, onPressed: () {}),
+            ActionButtonViewModel(
+                size: ActionButtonSize.large, style: ActionButtonStyle.secondary, icon: LucideIcons.chevronLeft, onPressed: null), // Disabled
+          ]),
+          const SizedBox(height: 5),
+          _buildButtonRow([
+            ActionButtonViewModel(
+                size: ActionButtonSize.large, style: ActionButtonStyle.primary, icon: LucideIcons.chevronDown, onPressed: () {}),
+            ActionButtonViewModel(
+                size: ActionButtonSize.large, style: ActionButtonStyle.secondary, icon: LucideIcons.chevronDown, onPressed: () {}),
+            ActionButtonViewModel(
+                size: ActionButtonSize.large, style: ActionButtonStyle.secondary, icon: LucideIcons.chevronDown, onPressed: null), // Disabled
           ]),
           const SizedBox(height: 30),
 
@@ -52,12 +75,22 @@ class ActionButtonPage extends StatelessWidget {
           ]),
           const SizedBox(height: 30),
 
+          // >>>>>>>> AQUI ESTÁ A SEÇÃO QUE FALTAVA <<<<<<<<<<
+          _buildSectionTitle('Trash Button'),
+          _buildButtonRow([
+            ActionButtonViewModel(
+                size: ActionButtonSize.large, style: ActionButtonStyle.trash, icon: LucideIcons.trash2, onPressed: () {}),
+            ActionButtonViewModel(
+                size: ActionButtonSize.large, style: ActionButtonStyle.trash, icon: LucideIcons.trash2, onPressed: null),
+          ]),
+          const SizedBox(height: 30),
+
           _buildSectionTitle('Outline Buttons'),
           _buildButtonRow([
             ActionButtonViewModel(
                 size: ActionButtonSize.small, style: ActionButtonStyle.outline, text: 'Ver Detalhes', onPressed: () {}),
             ActionButtonViewModel(
-                size: ActionButtonSize.small, style: ActionButtonStyle.outline, text: '', icon: LucideIcons.share2, onPressed: () {}),
+                size: ActionButtonSize.small, style: ActionButtonStyle.outline, icon: LucideIcons.share2, onPressed: () {}),
           ]),
           const SizedBox(height: 30),
 
@@ -94,3 +127,4 @@ class ActionButtonPage extends StatelessWidget {
     );
   }
 }
+

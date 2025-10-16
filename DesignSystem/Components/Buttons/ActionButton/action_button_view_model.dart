@@ -5,10 +5,12 @@ enum ActionButtonSize { small, medium, large }
 enum ActionButtonStyle {
   primary,
   secondary,
-  tertiary,
+  destructive,
   outline,
   ghost,
-  destructive,
+  tertiary,
+  trash,
+  primaryDarkIcon,
 }
 
 class ActionButtonViewModel {
@@ -21,8 +23,9 @@ class ActionButtonViewModel {
   ActionButtonViewModel({
     required this.size,
     required this.style,
-    required this.text,
-    required this.onPressed,
+    this.text = '',
     this.icon,
+    this.onPressed,
   });
 }
+

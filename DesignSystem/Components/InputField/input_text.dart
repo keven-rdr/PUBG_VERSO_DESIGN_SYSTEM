@@ -55,6 +55,7 @@ class StyledInputFieldState extends State<StyledInputField> {
     final textColor = isDark ? neutralLight : brandSecondary;
     final hintColor = isDark ? neutralGrey.withOpacity(0.6) : neutralGrey;
     final labelColor = brandPrimary;
+    final iconColor = brandPrimary;
 
     const inputBorder = OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(50.0)),
@@ -65,13 +66,50 @@ class StyledInputFieldState extends State<StyledInputField> {
       borderSide: const BorderSide(color: destructive, width: 2),
     );
 
+    final textFormField = TextFormField(
+      controller: widget.viewModel.controller,
+      obscureText: _obscureText,
+      enabled: widget.viewModel.isEnabled,
+      style: TextStyle(color: textColor, fontSize: 16),
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+        filled: true,
+        fillColor: backgroundColor.withOpacity(widget.viewModel.isEnabled ? 1.0 : 0.5),
+        hintText: widget.viewModel.hintText,
+        hintStyle: TextStyle(color: hintColor),
+        prefixIcon: widget.viewModel.prefixIcon != null
+            ? Icon(widget.viewModel.prefixIcon, color: iconColor)
+            : null,
+        suffixIcon: widget.viewModel.isPassword
+            ? IconButton(
+          icon: Icon(_obscureText ? LucideIcons.eyeOff : LucideIcons.eye, color: hintColor),
+          onPressed: _togglePasswordVisibility,
+        )
+            : null,
+        border: inputBorder,
+        enabledBorder: inputBorder,
+        focusedBorder: inputBorder,
+        disabledBorder: inputBorder,
+        errorBorder: errorBorder,
+        focusedErrorBorder: errorBorder,
+        errorText: _errorMsg,
+        errorStyle: const TextStyle(height: 0, fontSize: 0),
+      ),
+    );
+
+    // Se não houver label, retorna apenas o campo de texto.
+    if (widget.viewModel.label == null || widget.viewModel.label!.isEmpty) {
+      return textFormField;
+    }
+
+    // Se houver label, retorna o campo com o texto acima.
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 20.0, bottom: 8.0),
           child: Text(
-            widget.viewModel.label,
+            widget.viewModel.label!,
             style: TextStyle(
               color: labelColor,
               fontWeight: FontWeight.bold,
@@ -79,36 +117,7 @@ class StyledInputFieldState extends State<StyledInputField> {
             ),
           ),
         ),
-        TextFormField(
-          controller: widget.viewModel.controller,
-          obscureText: _obscureText,
-          enabled: widget.viewModel.isEnabled,
-          style: TextStyle(color: textColor, fontSize: 16),
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-            filled: true,
-            fillColor: backgroundColor.withOpacity(widget.viewModel.isEnabled ? 1.0 : 0.5),
-            hintText: widget.viewModel.hintText,
-            hintStyle: TextStyle(color: hintColor),
-
-            suffixIcon: widget.viewModel.isPassword
-                ? IconButton(
-              icon: Icon(_obscureText ? LucideIcons.eyeOff : LucideIcons.eye, color: hintColor),
-              onPressed: _togglePasswordVisibility,
-            )
-                : null,
-
-            border: inputBorder,
-            enabledBorder: inputBorder,
-            focusedBorder: inputBorder,
-            disabledBorder: inputBorder,
-            errorBorder: errorBorder,
-            focusedErrorBorder: errorBorder,
-
-            errorText: _errorMsg,
-            errorStyle: const TextStyle(height: 0, fontSize: 0),
-          ),
-        ),
+        textFormField,
       ],
     );
   }

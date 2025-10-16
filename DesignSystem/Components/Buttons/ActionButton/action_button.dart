@@ -15,8 +15,8 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isEnabled = viewModel.onPressed != null;
-    final bool isIconOnly = viewModel.text.isEmpty && viewModel.icon != null;
+    final bool isIconOnly = (viewModel.text.isEmpty && viewModel.icon != null) ||
+        viewModel.style == ActionButtonStyle.trash;
 
     double verticalPadding;
     double horizontalPadding;
@@ -62,6 +62,7 @@ class ActionButton extends StatelessWidget {
         foregroundColor = neutralLight;
         break;
       case ActionButtonStyle.destructive:
+      case ActionButtonStyle.trash:
         backgroundColor = destructive;
         foregroundColor = neutralLight;
         break;
@@ -78,10 +79,13 @@ class ActionButton extends StatelessWidget {
         backgroundColor = Colors.transparent;
         foregroundColor = brandSecondary;
         break;
+      case ActionButtonStyle.primaryDarkIcon:
+        // TODO: Handle this case.
+        throw UnimplementedError();
     }
 
-    disabledBackgroundColor = neutralGrey.withOpacity(0.5);
-    disabledForegroundColor = neutralDark.withOpacity(0.4);
+    disabledBackgroundColor = neutralGrey;
+    disabledForegroundColor = neutralLight;
 
     Widget buildButtonChild() {
       if (isIconOnly) {
@@ -104,13 +108,17 @@ class ActionButton extends StatelessWidget {
       elevation: MaterialStateProperty.all(0),
       backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
         if (states.contains(MaterialState.disabled)) {
-          return disabledBackgroundColor;
+          return viewModel.style == ActionButtonStyle.trash
+              ? neutralGrey
+              : disabledBackgroundColor.withOpacity(0.5);
         }
         return backgroundColor;
       }),
       foregroundColor: MaterialStateProperty.resolveWith<Color>((states) {
         if (states.contains(MaterialState.disabled)) {
-          return disabledForegroundColor;
+          return viewModel.style == ActionButtonStyle.trash
+              ? neutralLight
+              : disabledForegroundColor.withOpacity(0.4);
         }
         return foregroundColor;
       }),
@@ -124,9 +132,7 @@ class ActionButton extends StatelessWidget {
         ),
       ),
       shape: MaterialStateProperty.all(
-        isIconOnly
-            ? const CircleBorder()
-            : const StadiumBorder(),
+        isIconOnly ? const CircleBorder() : const StadiumBorder(),
       ),
       side: MaterialStateProperty.all(border),
       overlayColor: MaterialStateProperty.all(foregroundColor.withOpacity(0.1)),
@@ -140,7 +146,8 @@ class ActionButton extends StatelessWidget {
       );
     }
 
-    if (viewModel.style == ActionButtonStyle.ghost || viewModel.style == ActionButtonStyle.tertiary) {
+    if (viewModel.style == ActionButtonStyle.ghost ||
+        viewModel.style == ActionButtonStyle.tertiary) {
       return TextButton(
         onPressed: viewModel.onPressed,
         style: buttonStyle,
@@ -155,3 +162,4 @@ class ActionButton extends StatelessWidget {
     );
   }
 }
+
